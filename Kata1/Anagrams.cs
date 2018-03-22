@@ -6,49 +6,31 @@ namespace Kata1
 {
     public class Anagrams
     {
-        public static List<string> Of(string s)
+        public class Anagrams
         {
-            var anagrams = new List<string>();
-            anagrams.Add(s.Substring(0, 1) + Anagrams.Of(DropCharacter(s, 0))[0]);
-            anagrams.Add(s.Substring(0, 1) + Anagrams.Of(DropCharacter(s, 0))[1]);
-            anagrams.Add(s.Substring(1, 1) + Anagrams.Of(DropCharacter(s, 1))[0]);
-            anagrams.Add(s.Substring(1, 1) + Anagrams.Of(DropCharacter(s, 1))[1]);
-            anagrams.Add(s.Substring(2, 1) + Anagrams.Of(DropCharacter(s, 2))[0]);
-            anagrams.Add(s.Substring(2, 1) + Anagrams.Of(DropCharacter(s, 2))[1]);
-            return anagrams;
-
-            //if (s.Length <= 1)
-            //{
-            //    return new List<string> { s };
-            //}
-            //if (s.Length == 2)
-            //{
-            //    return new List<string> {
-            //    s,
-            //    s.Substring(1,1) + s.Substring(0,1)
-            //    };
-            //}
-            //return new List<string>
-            //{
-            //   s.Substring(0,1) + Anagrams.Of(DropCharacter(s,0))[0],
-            //   s.Substring(0,1) + Anagrams.Of(DropCharacter(s,0))[1],
-            //   s.Substring(1,1) + Anagrams.Of(DropCharacter(s,1))[0],
-            //   s.Substring(1,1) + Anagrams.Of(DropCharacter(s,1))[1],
-            //   s.Substring(2,1) + Anagrams.Of(DropCharacter(s,2))[0],
-            //   s.Substring(2,1) + Anagrams.Of(DropCharacter(s,2))[1]
-            //};
+            public static List<string> Of(string s)
+            {
+                if (s.Length <= 1)
+                    return new List<string> { s };
+                var anagrams = new List<string>();
+                for (var i = 0; i < s.Length; i++)
+                {
+                    var droppedCharacter = s.Substring(i, 1);
+                    var anagramsOfRest = Anagrams.Of(DropCharacter(s, i));
+                    foreach (var anagramOfRest in anagramsOfRest)
+                        anagrams.Add(droppedCharacter + anagramOfRest);
+                }
+                return anagrams;
+            }
+            private static string DropCharacter(string s, int index)
+            {
+                return s.Substring(0, index) + s.Substring(index + 1, s.Length - (index + 1));
+            }
         }
 
         public static string DropCharacter(string y, int index)
         {
-            var before = y.Substring(0, index);
-            var after = y.Substring(index + 1, y.Length - (index + 1));
-            return before + after;
-            //if (index == 0)
-            //    return after;
-            //if (index == 1)
-            //    return before + after;
-            //return before;
+            return y.Substring(0, index) +  y.Substring(index + 1, y.Length - (index + 1));
         }
     }
 }
