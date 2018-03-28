@@ -5,5 +5,9 @@
   "main": "server.js",
   "author": {
     "name": "espad"
+  },
+  "dependencies": {
+    "karma-chai": "^0.1.0",
+    "karma-mocha": "^1.3.0"
   }
 }
